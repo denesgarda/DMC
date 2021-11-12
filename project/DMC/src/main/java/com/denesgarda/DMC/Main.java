@@ -21,7 +21,7 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("initializing DMC");
         this.getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("Loading config");
-        File token = new File("DMC/token.txt");
+        File token = new File("DMC" + File.separator + "token.txt");
         if (!token.exists()) {
             getLogger().info("Could not find token config file; generating new one");
             try {
@@ -32,12 +32,12 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC/token.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "token.txt"));
             TOKEN = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File channel = new File("DMC/channel.txt");
+        File channel = new File("DMC" + File.separator + "channel.txt");
         if (!channel.exists()) {
             getLogger().info("Could not find channels config file; generating new one");
             try {
@@ -48,12 +48,12 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC/channel.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "channel.txt"));
             CHANNEL = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File guild  = new File("DMC/guild.txt");
+        File guild  = new File("DMC" + File.separator + "guild.txt");
         if (!guild.exists()) {
             getLogger().info("Could not find channels config file; generating new one");
             try {
@@ -64,7 +64,7 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC/guild.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "guild.txt"));
             GUILD = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
