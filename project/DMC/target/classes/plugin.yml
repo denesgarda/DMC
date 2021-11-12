@@ -1,4 +1,4 @@
 name: DMC
-main: main.java.com.denesgarda.DMC.Main
+main: com.denesgarda.DMC.Main
 version: 1.0
 description: Discord Minecraft Chat Integration
