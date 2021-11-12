@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
@@ -107,7 +108,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void chatReader(AsyncPlayerChatEvent event) {
+    public void chatReader(PlayerChatEvent event) {
         String text = "[" + event.getPlayer().getDisplayName() + "]: " + event.getMessage();
         JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage(text).queue();
     }
