@@ -14,6 +14,7 @@ public class Main extends JavaPlugin implements Listener {
     public static String TOKEN = null;
     public static String CHANNEL = null;
     public static String GUILD = null;
+    public static String BOT = null;
     public static JDA JDA;
 
     @Override
@@ -21,11 +22,11 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("initializing DMC");
         this.getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("Loading config");
-        File DMCDir = new File("DMC");
+        File DMCDir = new File("plugins/DMC");
         if(!DMCDir.exists()) {
             DMCDir.mkdir();
         }
-        File token = new File("DMC" + File.separator + "token.txt");
+        File token = new File("plugins/DMC" + File.separator + "token.txt");
         if (!token.exists()) {
             getLogger().info("Could not find token config file; generating new one");
             try {
@@ -36,12 +37,12 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "token.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("plugins/DMC" + File.separator + "token.txt"));
             TOKEN = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File channel = new File("DMC" + File.separator + "channel.txt");
+        File channel = new File("plugins/DMC" + File.separator + "channel.txt");
         if (!channel.exists()) {
             getLogger().info("Could not find channels config file; generating new one");
             try {
@@ -52,12 +53,12 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "channel.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("plugins/DMC" + File.separator + "channel.txt"));
             CHANNEL = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File guild  = new File("DMC" + File.separator + "guild.txt");
+        File guild  = new File("plugins/DMC" + File.separator + "guild.txt");
         if (!guild.exists()) {
             getLogger().info("Could not find channels config file; generating new one");
             try {
@@ -68,8 +69,31 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("After startup, configure new files");
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("DMC" + File.separator + "guild.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("plugins/DMC" + File.separator + "guild.txt"));
             GUILD = bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getLogger().info("Connecting to Discord Client");
+        try {
+            JDA = JDABuilder.createDefault(TOKEN).addEventListeners().build();
+            JDA.addEventListener(new ChannelReader());
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+        File bot  = new File("plugins/DMC" + File.separator + "bot.txt");
+        if (!bot.exists()) {
+            getLogger().info("Could not find channels config file; generating new one");
+            try {
+                bot.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            getLogger().info("After startup, configure new files");
+        }
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("plugins/DMC" + File.separator + "bot.txt"));
+            BOT = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
