@@ -21,6 +21,10 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("initializing DMC");
         this.getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("Loading config");
+        File DMCDir = new File("DMC");
+        if(!DMCDir.exists()) {
+            DMCDir.mkdir();
+        }
         File token = new File("DMC" + File.separator + "token.txt");
         if (!token.exists()) {
             getLogger().info("Could not find token config file; generating new one");
