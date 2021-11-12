@@ -2,7 +2,9 @@ package com.denesgarda.DMC;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
@@ -12,6 +14,7 @@ public class Main extends JavaPlugin implements Listener {
     public static String TOKEN = null;
     public static String CHANNEL = null;
     public static String GUILD = null;
+    public static JDA JDA;
 
     @Override
     public void onEnable() {
@@ -68,9 +71,16 @@ public class Main extends JavaPlugin implements Listener {
         }
         getLogger().info("Connecting to Discord Client");
         try {
-            JDA jda = JDABuilder.createDefault(TOKEN).addEventListeners().build();
+            JDA = JDABuilder.createDefault(TOKEN).addEventListeners().build();
+            JDA.addEventListener(new ChannelReader());
         } catch (LoginException e) {
             e.printStackTrace();
         }
+    }
+
+    @EventHandler
+    public void chatReader(AsyncPlayerChatEvent event) {
+        String text = "[" + event.getPlayer().getDisplayName() + "]: " + event.getMessage();
+        JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage(text).queue();
     }
 }
