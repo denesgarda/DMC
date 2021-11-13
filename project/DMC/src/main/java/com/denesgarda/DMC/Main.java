@@ -82,25 +82,10 @@ public class Main extends JavaPlugin implements Listener {
         } catch (LoginException e) {
             e.printStackTrace();
         }
-        File bot  = new File("plugins/DMC" + File.separator + "bot.txt");
-        if (!bot.exists()) {
-            getLogger().info("Could not find channels config file; generating new one");
-            try {
-                bot.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            getLogger().info("After startup, configure new files");
-        }
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("plugins/DMC" + File.separator + "bot.txt"));
-            BOT = bufferedReader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         getLogger().info("Connecting to Discord Client");
         try {
             JDA = JDABuilder.createDefault(TOKEN).addEventListeners().build();
+            BOT = JDA.getSelfUser().getId();
             JDA.addEventListener(new ChannelReader());
         } catch (LoginException e) {
             e.printStackTrace();
