@@ -78,13 +78,6 @@ public class Main extends JavaPlugin implements Listener {
         getLogger().info("Connecting to Discord Client");
         try {
             JDA = JDABuilder.createDefault(TOKEN).addEventListeners().build();
-            JDA.addEventListener(new ChannelReader());
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
-        getLogger().info("Connecting to Discord Client");
-        try {
-            JDA = JDABuilder.createDefault(TOKEN).addEventListeners().build();
             BOT = JDA.getSelfUser().getId();
             JDA.addEventListener(new ChannelReader());
         } catch (LoginException e) {
