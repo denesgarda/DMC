@@ -9,7 +9,7 @@ public class ChannelReader extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getGuild().getId().equals(Main.GUILD)) {
             if (event.getChannel().getId().equals(Main.CHANNEL)) {
-                if (!event.getAuthor().getId().equals(Main.BOT)) {
+                if (!event.getAuthor().getId().equals(Main.JDA.getSelfUser().getId())) {
                     String text = "[" + event.getAuthor().getName() + " | " + event.getChannel().getName() + "]: " + event.getMessage().getContentRaw();
                     Bukkit.broadcastMessage(text);
                 }
