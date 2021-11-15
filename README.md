@@ -1,5 +1,6 @@
 # DMC
 Discord Minecraft Chat Integration
+
 DMC allows you to sync a Minecraft server chat with a Discord text channel.
 
 ## Tutorial
