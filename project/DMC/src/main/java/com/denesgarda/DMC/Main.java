@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -21,6 +23,8 @@ public class Main extends JavaPlugin implements Listener {
     public static String GUILD = null;
     public static boolean ONLINE;
     public static boolean JOIN_LEAVE;
+    public static boolean ADVANCEMENTS;
+    public static boolean DEATHS;
     public static JDA JDA;
 
     @Override
@@ -35,6 +39,8 @@ public class Main extends JavaPlugin implements Listener {
             GUILD = CONFIG.getPropertyNotNull("guild-id", "");
             ONLINE = Boolean.parseBoolean(CONFIG.getPropertyNotNull("display-online-players", "true"));
             JOIN_LEAVE = Boolean.parseBoolean(CONFIG.getPropertyNotNull("send-leave-and-join-messages", "true"));
+            ADVANCEMENTS = Boolean.parseBoolean(CONFIG.getPropertyNotNull("send-advancement-messages", "true"));
+            DEATHS = Boolean.parseBoolean(CONFIG.getPropertyNotNull("send-death-messages", "true"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +65,12 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void joins(PlayerJoinEvent event) {
         if (ONLINE) {
-            JDA.getPresence().setPresence(Activity.watching(event.getPlayer().getServer().getOnlinePlayers().size() + " Players Play"), true);
+            int players = event.getPlayer().getServer().getOnlinePlayers().size();
+            if (players == 1) {
+                JDA.getPresence().setPresence(Activity.watching(players + " Player Play"), true);
+            } else {
+                JDA.getPresence().setPresence(Activity.watching(players + " Players Play"), true);
+            }
         }
         if (JOIN_LEAVE) {
             JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage("**" + event.getPlayer().getDisplayName() + " joined the server**").queue();
@@ -69,10 +80,29 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void leaves(PlayerQuitEvent event) {
         if (ONLINE) {
-            JDA.getPresence().setPresence(Activity.watching((event.getPlayer().getServer().getOnlinePlayers().size() - 1) + " Players Play"), true);
+            int players = event.getPlayer().getServer().getOnlinePlayers().size() - 1;
+            if (players == 1) {
+                JDA.getPresence().setPresence(Activity.watching(players + " Player Play"), true);
+            } else {
+                JDA.getPresence().setPresence(Activity.watching(players + " Players Play"), true);
+            }
         }
         if (JOIN_LEAVE) {
             JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage("**" + event.getPlayer().getDisplayName() + " left the server**").queue();
+        }
+    }
+
+    @EventHandler
+    public void advancementHandler(PlayerAdvancementDoneEvent event) {
+        if (ADVANCEMENTS) {
+            JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage("**" + event.getPlayer().getDisplayName() + " made the advancement " + event.getEventName() + "**").queue();
+        }
+    }
+
+    @EventHandler
+    public void deathHandler(PlayerDeathEvent event) {
+        if (DEATHS) {
+            JDA.getTextChannelCache().getElementById(CHANNEL).sendMessage("**" + event.getDeathMessage() + "**").queue();
         }
     }
 }
