@@ -80,13 +80,6 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void advancementHandler(PlayerAdvancementDoneEvent event) {
-        if (CONFIG.ADVANCEMENTS) {
-            JDA.getTextChannelCache().getElementById(CONFIG.CHANNEL).sendMessage("**" + event.getPlayer().getDisplayName() + " made the advancement " + event.getEventName() + "**").queue();
-        }
-    }
-
-    @EventHandler
     public void deathHandler(PlayerDeathEvent event) {
         if (CONFIG.DEATHS) {
             JDA.getTextChannelCache().getElementById(CONFIG.CHANNEL).sendMessage("**" + event.getDeathMessage() + "**").queue();
