@@ -5,7 +5,7 @@ DMC allows you to sync a Minecraft server chat with a Discord text channel.
 
 ## Tutorial
 
-1. Download the latest version [here](https://github.com/DenDen747/DMC/raw/main/builds/DMC_1.1_1.17.1.jar).
+1. Download the latest version [here](https://github.com/DenDen747/DMC/raw/main/builds/DMC_1.2_1.17.1.jar).
 2. Put it in the ``./plugins`` folder in your spigot server.
 3. Launch the server. The first time it launches, it will probably produce an error. This is normal.
 4. Stop the server after it fully starts up.
