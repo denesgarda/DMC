@@ -26,7 +26,7 @@ public class Main extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("Loading config");
         try {
-            CONFIG = (Config) PropertiesFile.returnObject("plugins" + File.separator + "DMC" + File.separator + "config.properties");
+            CONFIG = Config.returnObject("plugins" + File.separator + "DMC" + File.separator + "config.properties");
             CONFIG.reload();
         } catch (IOException e) {
             e.printStackTrace();

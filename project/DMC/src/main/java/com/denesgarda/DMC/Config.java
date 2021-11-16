@@ -1,7 +1,9 @@
 package com.denesgarda.DMC;
 
 import com.denesgarda.DMC.properties.PropertiesFile;
+import com.denesgarda.DMC.properties.lang.OperationFailedException;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Config extends PropertiesFile {
@@ -25,5 +27,19 @@ public class Config extends PropertiesFile {
         JOIN_LEAVE = Boolean.parseBoolean(this.getPropertyNotNull("send-leave-and-join-messages", "true"));
         ADVANCEMENTS = Boolean.parseBoolean(this.getPropertyNotNull("send-advancement-messages", "true"));
         DEATHS = Boolean.parseBoolean(this.getPropertyNotNull("send-death-messages", "true"));
+    }
+
+    public static Config returnObject(String path) throws IOException {
+        File file = new File(path);
+        if (file.exists()) {
+            return new Config(path);
+        } else {
+            boolean successful = file.getParentFile().mkdirs() && file.createNewFile();
+            if (successful) {
+                return new Config(path);
+            } else {
+                throw new OperationFailedException("Failed to create properties file.");
+            }
+        }
     }
 }
